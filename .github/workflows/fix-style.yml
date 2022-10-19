@@ -7,11 +7,14 @@ on:
 jobs:
   fix-style:
     if: |
-      github.event_name == 'push' ||
+      github.repository_owner == 'bdice' &&
       (
-        github.event_name == 'issue_comment' &&
-        github.event.issue.pull_request &&
-        startsWith(github.event.comment.body, '/fix style')
+        github.event_name == 'push' ||
+        (
+          github.event_name == 'issue_comment' &&
+          github.event.issue.pull_request &&
+          startsWith(github.event.comment.body, '/fix style')
+        )
       )
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +28,7 @@ jobs:
         # Only commit changes if triggered by a comment starting with '/fix style'
         if: |
           failure() &&
-          ${{ github.event_name }} == 'issue_comment' &&
+          github.event_name == 'issue_comment' &&
           github.event.issue.pull_request &&
           startsWith(github.event.comment.body, '/fix style')
         with:
