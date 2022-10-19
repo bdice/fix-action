@@ -6,7 +6,7 @@ on:
 
 jobs:
   fix-style:
-    if: ${{ github.repository_owner == "bdice" }}
+    if: github.repository_owner == "bdice"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,12 +16,10 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         # Only commit changes if triggered by a comment starting with "/fix style"
         if: |
-          ${{
-            failure() &&
-            github.event_name == "issue_comment" &&
-            github.event.issue.pull_request &&
-            startsWith(github.event.comment.body, "/fix style")
-          }}
+          failure() &&
+          github.event_name == "issue_comment" &&
+          github.event.issue.pull_request &&
+          startsWith(github.event.comment.body, "/fix style")
         with:
           fetch: false
           message: "Fix style."
