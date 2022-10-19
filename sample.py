@@ -2,5 +2,4 @@
 
 
 def f():
-    print("test"
-    )
+    print("test")
